@@ -86,7 +86,23 @@ def truncate(sample, terminals):
     else:
         return sample
 
-
+def generate_sequence(device, model, tokenizer, context, max_length, num_return_sequences, 
+                        top_p, temp, pad_token_id, terminals=['1'], min_length=67):
+   
+    generated_texts = sample(
+        device, model, tokenizer, context, max_length, 
+        num_return_sequences, top_p, temp, pad_token_id
+    )
+    
+    
+    sequence_results = []
+    for text in generated_texts:
+        truncated = truncate(text, terminals)
+        
+        if len(truncated) >= min_length:
+            sequence_results.append(truncated)
+    
+    return sequence_results
 def cross_entropy(logits, target, reduction='mean'):
     return torch.nn.functional.cross_entropy(input=logits, target=target, weight=None, size_average=None, reduce=None, reduction=reduction)
 
@@ -146,15 +162,14 @@ def main():
     # sample
 
     with print_time('sampling'):
-        completions = sample(device=device, model=model, tokenizer=tokenizer, context=args.context, pad_token_id=tokenizer.encode('<|pad|>').ids[0], num_return_sequences=args.num_samples, temp=args.t, top_p=args.p, max_length=args.max_length)
-        truncations = [truncate(completion, terminals=['1']) for completion in completions]
+        truncations = generate_sequence(device=device, model=model, tokenizer=tokenizer, context=args.context, pad_token_id=tokenizer.encode('<|pad|>').ids[0], num_return_sequences=args.num_samples, temp=args.t, top_p=args.p, max_length=args.max_length)
 
         print(args.context)
 
         for (i, truncation) in enumerate(truncations):
 
             print()
-            print(i)
+            
             print(truncation)
             
 
@@ -162,3 +177,4 @@ def main():
 if __name__ == '__main__':
     main()
     print('done.')
+
