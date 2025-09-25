@@ -41,7 +41,7 @@ pip install -r requirement.txt
 4. Sample
 
    ```bash
-   python sample.py --t 1.8 --p 0.9 --num-samples 2 --context "1"
+   python sample.py --model_path ./checkpoint --dna_sequence "CGGGCATCAGAATTCCCTGGAGG" --output_file generated_proteins.txt --num_variants 2 --top_k 25 --top_p 0.9 --max_length 167 --temperature 1
    ```
 
    
