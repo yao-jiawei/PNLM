@@ -4,7 +4,8 @@
 
 ```
 
-wget https://drive.google.com/file/d/149PKklWYpmqkvECyMvVBeUIMauNy_3KZ/view?usp=sharing
+https://drive.google.com/file/d/1ojQEyCud9XJEJSTUL-DeZs5odyLBVS2n/view?usp=sharing
 tar xfz weight.tar.gz
 ```
+
 
